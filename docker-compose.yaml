@@ -19,7 +19,7 @@ services:
 
 
   db:
-    image: postgres:latest
+    image: postgres:13.13-bullseye
     restart: always
     environment:
       POSTGRES_DB: 'biblioteca'
@@ -36,15 +36,17 @@ services:
 
   # Configuração do serviço da aplicação
   app:
-    build: .  # Build da imagem da aplicação a partir do Dockerfile no diretório atual
+    #image: appv2:latest
+    build: .
     ports:
       - 8000:8000
     networks:
       - minha_rede  # Utilização da nova rede 'minha_rede'
     depends_on:
       - db
-    command: bash -c "echo 'Esperando...' && sleep 15 && python manage.py makemigrations && python manage.py migrate && python manage.py migrate --run-syncdb && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "echo 'Esperando...' && sleep 10 && python manage.py makemigrations && python manage.py migrate && python manage.py migrate --run-syncdb && python manage.py runserver 0.0.0.0:8000"
 
 networks:
   minha_rede:
     driver: bridge  # Configuração do driver de rede como 'bridge'
+
