@@ -22,26 +22,22 @@ services:
     image: postgres:13.13-bullseye
     restart: always
     environment:
-      POSTGRES_DB: 'biblioteca'
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'root'
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./data:/var/lib/postgresql/data  # Mapeamento de volume para persistir dados do banco
+      - ./data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"  # Exposição da porta do PostgreSQL
+      - "5432:5432"
     networks:
-      - minha_rede  # Utilização da nova rede 'minha_rede'
+      - minha_rede
 
-
-
-  # Configuração do serviço da aplicação
   app:
-    #image: appv2:latest
     build: .
     ports:
       - 8000:8000
     networks:
-      - minha_rede  # Utilização da nova rede 'minha_rede'
+      - minha_rede
     depends_on:
       - db
     command: bash -c "echo 'Esperando...' && sleep 10 && python manage.py makemigrations && python manage.py migrate && python manage.py migrate --run-syncdb && python manage.py runserver 0.0.0.0:8000"
