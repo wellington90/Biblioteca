@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  # Configuração do serviço do banco de dados MySQL
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'biblioteca'
+      MYSQL_USER: 'app'
+      MYSQL_PASSWORD: 'senha'
+      MYSQL_ROOT_PASSWORD: 'root'  # Nome do banco de dados
+    volumes:
+      - ./data:/var/lib/mysqls  # Mapeamento de volume para persistir dados do banco
+    ports:
+      - "3306:3306"  # Exposição da porta do MySQL
+    networks:
+      - minha_rede  # Utilização da nova rede 'minha_rede'
+
+  # Configuração do serviço da aplicação
+  app:
+    build: .  # Build da imagem da aplicação a partir do Dockerfile no diretório atual
+    ports:
+      - 8000:8000
+    networks:
+      - minha_rede  # Utilização da nova rede 'minha_rede'
+    depends_on:
+      - db
+    command: bash -c "echo 'Esperando 2 minutos...' && sleep 240 && python manage.py makemigrations && python manage.py migrate && python manage.py migrate --run-syncdb && python manage.py runserver 0.0.0.0:8000"
+
+networks:
+  minha_rede:
+    driver: bridge  # Configuração do driver de rede como 'bridge'
