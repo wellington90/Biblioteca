@@ -19,7 +19,7 @@ services:
 
 
   db:
-    image: postgres:13.13-bullseye
+    image: ${POSTGRES_IMAGE}
     restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
