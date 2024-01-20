@@ -2,20 +2,37 @@ version: '3'
 
 services:
   # Configuração do serviço do banco de dados MySQL
+#  db:
+#    image: mysql:latest
+#    restart: always
+#    environment:
+#      MYSQL_DATABASE: 'biblioteca'
+#      MYSQL_USER: 'mysql'
+#      MYSQL_PASSWORD: 'root'
+#      MYSQL_ROOT_PASSWORD: 'root'  # Nome do banco de dados
+#    volumes:
+#      - ./data:/var/lib/mysqls  # Mapeamento de volume para persistir dados do banco
+#    ports:
+#      - "3306:3306"  # Exposição da porta do MySQL
+#    networks:
+#      - minha_rede  # Utilização da nova rede 'minha_rede'
+
+
   db:
-    image: mysql:latest
+    image: postgres:latest
     restart: always
     environment:
-      MYSQL_DATABASE: 'biblioteca'
-      MYSQL_USER: 'app'
-      MYSQL_PASSWORD: 'senha'
-      MYSQL_ROOT_PASSWORD: 'root'  # Nome do banco de dados
+      POSTGRES_DB: 'biblioteca'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'root'
     volumes:
-      - ./data:/var/lib/mysqls  # Mapeamento de volume para persistir dados do banco
+      - ./data:/var/lib/postgresql/data  # Mapeamento de volume para persistir dados do banco
     ports:
-      - "3306:3306"  # Exposição da porta do MySQL
+      - "5432:5432"  # Exposição da porta do PostgreSQL
     networks:
       - minha_rede  # Utilização da nova rede 'minha_rede'
+
+
 
   # Configuração do serviço da aplicação
   app:
@@ -26,7 +43,7 @@ services:
       - minha_rede  # Utilização da nova rede 'minha_rede'
     depends_on:
       - db
-    command: bash -c "echo 'Esperando 2 minutos...' && sleep 240 && python manage.py makemigrations && python manage.py migrate && python manage.py migrate --run-syncdb && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "echo 'Esperando...' && sleep 15 && python manage.py makemigrations && python manage.py migrate && python manage.py migrate --run-syncdb && python manage.py runserver 0.0.0.0:8000"
 
 networks:
   minha_rede:

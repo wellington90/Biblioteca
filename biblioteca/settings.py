@@ -91,27 +91,27 @@ WSGI_APPLICATION = 'biblioteca.wsgi.application'
 #}
 
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'biblioteca',
-#        'USER': 'postgres',
-#        'PASSWORD': 'root',
-#        'HOST': 'db',
-#        'PORT': '5432',
-#    }
-#}
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'biblioteca',
-        'USER': 'app',
-        'PASSWORD': 'senha',
-        'HOST': 'db',  # Este é o nome do serviço no Docker Compose
-        'PORT': '3306',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'biblioteca',
+#        'USER': 'mysql',
+#        'PASSWORD': 'root',
+#        'HOST': 'db',  # Este é o nome do serviço no Docker Compose
+#        'PORT': '3306',
+#    }
+#}
 
 
 # Password validation
